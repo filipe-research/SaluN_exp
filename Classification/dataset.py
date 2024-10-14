@@ -604,7 +604,8 @@ def cifar10_dataloaders(
             noise_labels = noise['noise_labels']
             
             # self.closed_noise = noise['closed_noise']
-            train_set_copy.targets[train_idx] = noise_labels
+            #train_set_copy.targets[train_idx] = np.array(noise_labels)
+            train_set_copy.targets = np.array(noise_labels)
         
     else:
         # inject noise
@@ -631,9 +632,9 @@ def cifar10_dataloaders(
         #for i in range(50000):
         for i in idx:
             if i in closed_noise:
-                if noise_mode == 'sym':
+                # if noise_mode == 'sym':
                     # if dataset == 'cifar10':
-                    noiselabel = random.randint(0, 9)
+                noiselabel = random.randint(0, 9)
                 #     elif dataset == 'cifar100':
                 #         noiselabel = random.randint(0, 99)
                 # elif noise_mode == 'asym':
