@@ -539,7 +539,7 @@ def cifar10_dataloaders(
     only_mark: bool = False,
     shuffle=True,
     no_aug=False,
-    noise_ratio=0.0,
+    noise_rate=0.0,
     noise_mode='sym',  
     noise_file=None
 ):
@@ -597,7 +597,7 @@ def cifar10_dataloaders(
     # noise_labels = None
     #noisify trainset
 
-    noise_file = f'cifar10_{noise_ratio}_sym.json'
+    noise_file = f'cifar10_{noise_rate}_sym.json'
     if os.path.exists(noise_file):
             noise = json.load(open(noise_file, "r"))
             noise_labels = noise['noise_labels']
