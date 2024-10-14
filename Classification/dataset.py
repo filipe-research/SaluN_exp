@@ -649,7 +649,8 @@ def cifar10_dataloaders(
         #noise = {'noise_labels': noise_labels, 'open_noise': self.open_noise, 'closed_noise': self.closed_noise}
         noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
         print("save noise to %s ..." % noise_file)
-        
+        import pdb; pdb.set_trace()
+        # print('ok')
         json.dump(noise, open(noise_file, "w"))
         # self.cifar_label = noise_labels
         # self.open_id = np.array(self.open_noise)[:, 0] if len(self.open_noise) !=0 else None
