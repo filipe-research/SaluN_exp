@@ -593,8 +593,7 @@ def cifar10_dataloaders(
 
     train_idx = list(set(range(len(train_set))) - set(valid_idx))
 
-    train_set.data = train_set_copy.data[train_idx]
-    train_set.targets = train_set_copy.targets[train_idx]
+    
 
     # import pdb; pdb.set_trace()
     # noise_labels = None
@@ -602,7 +601,7 @@ def cifar10_dataloaders(
 
     noise_file = f'cifar10_{noise_rate}_sym.json'
     if os.path.exists(noise_file):
-            # import pdb; pdb.set_trace()
+            import pdb; pdb.set_trace()
             noise = json.load(open(noise_file, "r"))
             noise_labels = noise['noise_labels']
             
@@ -615,7 +614,7 @@ def cifar10_dataloaders(
         noise_labels = []  # all labels (some noisy, some clean)
         #idx = list(range(50000))  # indices of cifar dataset
         idx = train_idx
-        random.shuffle(idx)
+        # random.shuffle(idx)
         #num_total_noise = int(self.r * 50000)  # total amount of noise
         num_total_noise = int(noise_rate * len(train_idx))  # total amount of noise
         
@@ -643,7 +642,7 @@ def cifar10_dataloaders(
                 # elif noise_mode == 'asym':
                     # noiselabel = self.transition[cifar_label[i]]
                 noise_labels.append(noiselabel)
-                train_set.targets[i] = noiselabel
+                train_set_copy.targets[i] = noiselabel
                 
             else:
             #     #noise_labels.append(cifar_label[i])
@@ -657,7 +656,7 @@ def cifar10_dataloaders(
         noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
         
         print("save noise to %s ..." % noise_file)
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         # print('ok')
         json.dump(noise, open(noise_file, "w"))
         # self.cifar_label = noise_labels
@@ -667,7 +666,8 @@ def cifar10_dataloaders(
     #end noisify trainset
 
     
-
+    train_set.data = train_set_copy.data[train_idx]
+    train_set.targets = train_set_copy.targets[train_idx]
     
 
     if class_to_replace is not None and indexes_to_replace is not None:
