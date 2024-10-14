@@ -3,7 +3,8 @@ import sys
 
 import torch
 import torchvision
-from datasets.load import load_dataset
+# from datasets.load import load_dataset
+from datasets import load_dataset
 from torch.utils.data import DataLoader, Subset
 
 # sys.path.append(".")
