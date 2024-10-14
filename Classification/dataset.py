@@ -608,6 +608,8 @@ def cifar10_dataloaders(
             # self.closed_noise = noise['closed_noise']
             #train_set_copy.targets[train_idx] = np.array(noise_labels)
             train_set_copy.targets = np.array(noise_labels)
+            train_set.targets = train_set_copy.targets
+            
         
     else:
         # inject noise
@@ -650,6 +652,7 @@ def cifar10_dataloaders(
                 # noise_labels.append(cifar_label[i])
                 noise_labels.append(train_set_copy.targets[i])
         
+        train_set.targets = train_set_copy.targets[train_idx]
         # write noise to a file, to re-use
         #noise = {'noise_labels': noise_labels, 'open_noise': self.open_noise, 'closed_noise': self.closed_noise}
         # Converte cada elemento da lista em um número inteiro
@@ -668,7 +671,7 @@ def cifar10_dataloaders(
 
     
     train_set.data = train_set_copy.data[train_idx]
-    train_set.targets = train_set_copy.targets[train_idx]
+    # train_set.targets = train_set_copy.targets[train_idx]
     
 
     if class_to_replace is not None and indexes_to_replace is not None:
