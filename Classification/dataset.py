@@ -16,7 +16,8 @@ from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from torchvision.datasets import CIFAR10, CIFAR100, SVHN, ImageFolder
 from tqdm import tqdm
-
+import json
+import random
 
 def cifar10_dataloaders_no_val(
     batch_size=128, data_dir="datasets/cifar10", num_workers=2
@@ -538,6 +539,9 @@ def cifar10_dataloaders(
     only_mark: bool = False,
     shuffle=True,
     no_aug=False,
+    noise_ratio=0.0,
+    noise_mode='sym',  
+    noise_file=None
 ):
     if no_aug:
         train_transform = transforms.Compose(
@@ -588,6 +592,68 @@ def cifar10_dataloaders(
     valid_set.targets = train_set_copy.targets[valid_idx]
 
     train_idx = list(set(range(len(train_set))) - set(valid_idx))
+
+
+    # noise_labels = None
+    #noisify trainset
+    if os.path.exists(noise_file):
+            noise = json.load(open(noise_file, "r"))
+            noise_labels = noise['noise_labels']
+            
+            # self.closed_noise = noise['closed_noise']
+            train_set_copy.targets[train_idx] = noise_labels
+        
+    else:
+        # inject noise
+        noise_labels = []  # all labels (some noisy, some clean)
+        #idx = list(range(50000))  # indices of cifar dataset
+        idx = train_idx
+        random.shuffle(idx)
+        #num_total_noise = int(self.r * 50000)  # total amount of noise
+        num_total_noise = int(noise_ratio * len(train_idx))  # total amount of noise
+        
+        print('Statistics of synthetic noisy CIFAR dataset: ', 'num of clean samples: ', len(train_idx) - num_total_noise,
+                ' num of closed-set noise: ', num_total_noise )
+            #   ' num of closed-set noise: ', num_total_noise - num_open_noise, ' num of open-set noise: ', num_open_noise)
+        
+        #target_noise_idx = list(range(50000))
+        # target_noise_idx = train_idx
+        # random.shuffle(target_noise_idx)
+        # self.open_noise = list(
+        #     zip(idx[:num_open_noise], target_noise_idx[:num_open_noise]))  # clean sample -> openset sample mapping
+        # self.closed_noise = idx[num_open_noise:num_total_noise]  # closed set noise indices
+        #self.closed_noise = idx[0:num_total_noise]  # closed set noise indices
+        closed_noise = idx[0:num_total_noise]  # closed set noise indices
+        # populate noise_labels
+        #for i in range(50000):
+        for i in idx:
+            if i in closed_noise:
+                if noise_mode == 'sym':
+                    # if dataset == 'cifar10':
+                    noiselabel = random.randint(0, 9)
+                #     elif dataset == 'cifar100':
+                #         noiselabel = random.randint(0, 99)
+                # elif noise_mode == 'asym':
+                    # noiselabel = self.transition[cifar_label[i]]
+                noise_labels.append(noiselabel)
+                train_set_copy.targets[i] = noiselabel
+            else:
+            #     #noise_labels.append(cifar_label[i])
+                # noise_labels.append(cifar_label[i])
+                noise_labels.append(train_set_copy.targets[i])
+        
+        # write noise to a file, to re-use
+        #noise = {'noise_labels': noise_labels, 'open_noise': self.open_noise, 'closed_noise': self.closed_noise}
+        noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
+        print("save noise to %s ..." % noise_file)
+        json.dump(noise, open(noise_file, "w"))
+        # self.cifar_label = noise_labels
+        # self.open_id = np.array(self.open_noise)[:, 0] if len(self.open_noise) !=0 else None
+
+    
+    #end noisify trainset
+
+    
 
     train_set.data = train_set_copy.data[train_idx]
     train_set.targets = train_set_copy.targets[train_idx]
