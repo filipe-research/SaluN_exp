@@ -631,8 +631,9 @@ def cifar10_dataloaders(
         #self.closed_noise = idx[0:num_total_noise]  # closed set noise indices
         closed_noise = idx[0:num_total_noise]  # closed set noise indices
         # populate noise_labels
-        #for i in range(50000):
-        for i in idx:
+        for i in range(50000): #pra incluir o conjunto de validação. 
+            #Mas o conjunto de validacao nao vai ser alterado pq o idx é baseado no train_idx
+        # for i in idx:
             if i in closed_noise:
                 # if noise_mode == 'sym':
                     # if dataset == 'cifar10':
