@@ -142,4 +142,13 @@ def parse_args():
     parser.add_argument("--alpha", default=0.2, type=float, help="unlearn noise")
     parser.add_argument("--mask_path", default=None, type=str, help="the path of saliency map")
 
+    ### Noise Settings
+    
+    parser.add_argument(
+        "--noise_rate",
+        default=0.0,
+        type=float,
+        help="noise rate",
+    )
+
     return parser.parse_args()
