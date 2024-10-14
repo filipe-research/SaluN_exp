@@ -601,7 +601,7 @@ def cifar10_dataloaders(
 
     noise_file = f'cifar10_{noise_rate}_sym.json'
     if os.path.exists(noise_file):
-            import pdb; pdb.set_trace()
+            # import pdb; pdb.set_trace()
             noise = json.load(open(noise_file, "r"))
             noise_labels = noise['noise_labels']
             
@@ -657,7 +657,7 @@ def cifar10_dataloaders(
         noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
         
         print("save noise to %s ..." % noise_file)
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         # print('ok')
         json.dump(noise, open(noise_file, "w"))
         # self.cifar_label = noise_labels
