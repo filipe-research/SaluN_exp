@@ -648,7 +648,7 @@ def cifar10_dataloaders(
         # write noise to a file, to re-use
         #noise = {'noise_labels': noise_labels, 'open_noise': self.open_noise, 'closed_noise': self.closed_noise}
         # Converte cada elemento da lista em um número inteiro
-        noise['noise_labels'] = [int(x) for x in noise['noise_labels']]
+        noise_labels = [int(x) for x in noise_labels]
         noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
         
         print("save noise to %s ..." % noise_file)
