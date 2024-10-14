@@ -593,6 +593,9 @@ def cifar10_dataloaders(
 
     train_idx = list(set(range(len(train_set))) - set(valid_idx))
 
+    train_set.data = train_set_copy.data[train_idx]
+    train_set.targets = train_set_copy.targets[train_idx]
+
     import pdb; pdb.set_trace()
     # noise_labels = None
     #noisify trainset
@@ -664,8 +667,7 @@ def cifar10_dataloaders(
 
     
 
-    train_set.data = train_set_copy.data[train_idx]
-    train_set.targets = train_set_copy.targets[train_idx]
+    
 
     if class_to_replace is not None and indexes_to_replace is not None:
         raise ValueError(
