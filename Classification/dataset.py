@@ -612,7 +612,7 @@ def cifar10_dataloaders(
         idx = train_idx
         random.shuffle(idx)
         #num_total_noise = int(self.r * 50000)  # total amount of noise
-        num_total_noise = int(noise_ratio * len(train_idx))  # total amount of noise
+        num_total_noise = int(noise_rate * len(train_idx))  # total amount of noise
         
         print('Statistics of synthetic noisy CIFAR dataset: ', 'num of clean samples: ', len(train_idx) - num_total_noise,
                 ' num of closed-set noise: ', num_total_noise )
