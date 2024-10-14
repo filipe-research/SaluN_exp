@@ -643,7 +643,8 @@ def cifar10_dataloaders(
                 # elif noise_mode == 'asym':
                     # noiselabel = self.transition[cifar_label[i]]
                 noise_labels.append(noiselabel)
-                train_set_copy.targets[i] = noiselabel
+                train_set.targets[i] = noiselabel
+                
             else:
             #     #noise_labels.append(cifar_label[i])
                 # noise_labels.append(cifar_label[i])
