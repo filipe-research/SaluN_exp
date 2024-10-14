@@ -596,7 +596,7 @@ def cifar10_dataloaders(
     train_set.data = train_set_copy.data[train_idx]
     train_set.targets = train_set_copy.targets[train_idx]
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     # noise_labels = None
     #noisify trainset
 
@@ -656,7 +656,7 @@ def cifar10_dataloaders(
         noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
         
         print("save noise to %s ..." % noise_file)
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         # print('ok')
         json.dump(noise, open(noise_file, "w"))
         # self.cifar_label = noise_labels
