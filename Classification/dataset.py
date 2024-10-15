@@ -587,6 +587,7 @@ def cifar10_dataloaders(
         )
     valid_idx = np.hstack(valid_idx)
     train_set_copy = copy.deepcopy(train_set)
+    train_clean_set = copy.deepcopy(train_set)
 
     valid_set.data = train_set_copy.data[valid_idx]
     valid_set.targets = train_set_copy.targets[valid_idx]
@@ -657,10 +658,13 @@ def cifar10_dataloaders(
         #noise = {'noise_labels': noise_labels, 'open_noise': self.open_noise, 'closed_noise': self.closed_noise}
         # Converte cada elemento da lista em um número inteiro
         noise_labels = [int(x) for x in noise_labels]
-        noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise}
+        clean_idx = list(set(range(len(train_idx))) - set(closed_noise))
+        noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise, 'clean_idx':clean_idx}
         
+
+
         print("save noise to %s ..." % noise_file)
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         # print('ok')
         json.dump(noise, open(noise_file, "w"))
         # self.cifar_label = noise_labels
