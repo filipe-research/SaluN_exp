@@ -118,13 +118,20 @@ def setup_model_dataset(args):
         train_full_loader, val_loader, _ = cifar10_dataloaders(
             batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers, noise_rate=args.noise_rate
         )
+
+        noise_file = f'cifar10_{args.noise_rate}_sym.json'
+        noise = json.load(open(noise_file, "r"))
+        indexes_to_replace = noise['closed_noise']
+
         marked_loader, _, test_loader = cifar10_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
             num_workers=args.workers,
-            class_to_replace=args.class_to_replace,
+            #removi a linha de baixo para não substituir aleatoriamente
+            #class_to_replace=args.class_to_replace,    
             num_indexes_to_replace=args.num_indexes_to_replace,
-            indexes_to_replace=args.indexes_to_replace,
+            #indexes_to_replace=args.indexes_to_replace,
+            indexes_to_replace=indexes_to_replace,
             seed=args.seed,
             only_mark=True,
             shuffle=True,
