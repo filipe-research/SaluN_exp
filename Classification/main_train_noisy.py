@@ -149,7 +149,8 @@ def main():
     plt.close()
 
     print("Performance on the test data set")
-    test_tacc = validate(val_loader, model, criterion, args)
+    #test_tacc = validate(val_loader, model, criterion, args)
+    test_tacc = validate(test_loader, model, criterion, args)
     if len(all_result["val_ta"]) != 0:
         val_pick_best_epoch = np.argmax(np.array(all_result["val_ta"]))
         print(
