@@ -653,7 +653,8 @@ def cifar10_dataloaders(
                 # noise_labels.append(cifar_label[i])
                 noise_labels.append(train_set_copy.targets[i])
         
-        train_set.targets = train_set_copy.targets[train_idx]
+        # train_set.targets = train_set_copy.targets[train_idx]
+        train_set.targets = train_set_copy.targets
         # write noise to a file, to re-use
         #noise = {'noise_labels': noise_labels, 'open_noise': self.open_noise, 'closed_noise': self.closed_noise}
         # Converte cada elemento da lista em um número inteiro
@@ -665,6 +666,10 @@ def cifar10_dataloaders(
 
         print("save noise to %s ..." % noise_file)
         import pdb; pdb.set_trace()
+        #noise['noise_labels']
+        #train_clean_set.targets[0:10]
+        #train_set.targets[0:10]
+        #train_set_copy.targets[0:10]
         # print('ok')
         json.dump(noise, open(noise_file, "w"))
         # self.cifar_label = noise_labels
