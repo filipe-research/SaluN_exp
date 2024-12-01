@@ -190,6 +190,9 @@ def cifar100_dataloaders(
     only_mark: bool = False,
     shuffle=True,
     no_aug=False,
+    noise_rate=0.0,
+    noise_mode='sym',  
+    noise_file=None
 ):
     if no_aug:
         train_transform = transforms.Compose(
