@@ -125,7 +125,7 @@ def setup_model_dataset(args):
             indexes_to_replace = noise['closed_noise']
         else:
             indexes_to_replace = args.indexes_to_replace
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         marked_loader, _, test_loader = cifar10_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
