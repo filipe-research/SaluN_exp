@@ -242,7 +242,6 @@ def cifar100_dataloaders(
 
     train_idx = list(set(range(len(train_set))) - set(valid_idx))
 
-    train_set.data = train_set_copy.data[train_idx]
 
     noise_file = f'cifar100_{noise_rate}_sym.json'
     if os.path.exists(noise_file):
@@ -297,6 +296,16 @@ def cifar100_dataloaders(
                 # noise_labels.append(cifar_label[i])
                 noise_labels.append(train_set_copy.targets[i])
 
+        
+
+        noise_labels = [int(x) for x in noise_labels]
+        clean_idx = list(set(range(len(train_idx))) - set(closed_noise))
+        noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise, 'clean_idx':clean_idx}
+
+        print("save noise to %s ..." % noise_file)
+        json.dump(noise, open(noise_file, "w"))
+    
+    train_set.data = train_set_copy.data[train_idx]
     train_set.targets = train_set_copy.targets[train_idx]
 
     if class_to_replace is not None and indexes_to_replace is not None:
