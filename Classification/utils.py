@@ -186,7 +186,7 @@ def setup_model_dataset(args):
             mean=[0.5071, 0.4866, 0.4409], std=[0.2673, 0.2564, 0.2762]
         )
         train_full_loader, val_loader, _ = cifar100_dataloaders(
-            batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers
+            batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers,noise_rate=args.noise_rate
         )
         if args.indexes_to_replace is not None:
             noise_file = f'cifar100_{args.noise_rate}_sym.json'
