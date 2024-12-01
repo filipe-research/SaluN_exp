@@ -240,6 +240,60 @@ def cifar100_dataloaders(
     train_idx = list(set(range(len(train_set))) - set(valid_idx))
 
     train_set.data = train_set_copy.data[train_idx]
+
+    noise_file = f'cifar100_{noise_rate}_sym.json'
+    if os.path.exists(noise_file):
+            
+            noise = json.load(open(noise_file, "r"))
+            noise_labels = noise['noise_labels']
+            
+            # self.closed_noise = noise['closed_noise']
+            #train_set_copy.targets[train_idx] = np.array(noise_labels)
+            train_set_copy.targets = np.array(noise_labels)
+            train_set.targets = train_set_copy.targets
+            
+        
+    else:
+        # inject noise
+        noise_labels = []  # all labels (some noisy, some clean)
+        #idx = list(range(50000))  # indices of cifar dataset
+        idx = train_idx
+        # random.shuffle(idx)
+        #num_total_noise = int(self.r * 50000)  # total amount of noise
+        num_total_noise = int(noise_rate * len(train_idx))  # total amount of noise
+        
+        print('Statistics of synthetic noisy CIFAR dataset: ', 'num of clean samples: ', len(train_idx) - num_total_noise,
+                ' num of closed-set noise: ', num_total_noise )
+            #   ' num of closed-set noise: ', num_total_noise - num_open_noise, ' num of open-set noise: ', num_open_noise)
+        
+        #target_noise_idx = list(range(50000))
+        # target_noise_idx = train_idx
+        # random.shuffle(target_noise_idx)
+        # self.open_noise = list(
+        #     zip(idx[:num_open_noise], target_noise_idx[:num_open_noise]))  # clean sample -> openset sample mapping
+        # self.closed_noise = idx[num_open_noise:num_total_noise]  # closed set noise indices
+        #self.closed_noise = idx[0:num_total_noise]  # closed set noise indices
+        closed_noise = idx[0:num_total_noise]  # closed set noise indices
+        # populate noise_labels
+        for i in range(50000): #pra incluir o conjunto de validação. 
+            #Mas o conjunto de validacao nao vai ser alterado pq o idx é baseado no train_idx
+        # for i in idx:
+            if i in closed_noise:
+                # if noise_mode == 'sym':
+                    # if dataset == 'cifar10':
+                noiselabel = random.randint(0, 99)
+                #     elif dataset == 'cifar100':
+                #         noiselabel = random.randint(0, 99)
+                # elif noise_mode == 'asym':
+                    # noiselabel = self.transition[cifar_label[i]]
+                noise_labels.append(noiselabel)
+                train_set_copy.targets[i] = noiselabel
+                
+            else:
+            #     #noise_labels.append(cifar_label[i])
+                # noise_labels.append(cifar_label[i])
+                noise_labels.append(train_set_copy.targets[i])
+
     train_set.targets = train_set_copy.targets[train_idx]
 
     if class_to_replace is not None and indexes_to_replace is not None:
@@ -597,8 +651,6 @@ def cifar10_dataloaders(
     train_idx = list(set(range(len(train_set))) - set(valid_idx))
 
     
-
-    # import pdb; pdb.set_trace()
     # noise_labels = None
     #noisify trainset
 
