@@ -572,7 +572,7 @@ def cifar10_dataloaders(
 
     train_set = CIFAR10(data_dir, train=True, transform=train_transform, download=True)
 
-    import pdb; pdb.set_trace()
+    
 
     test_set = CIFAR10(data_dir, train=False, transform=test_transform, download=True)
 
