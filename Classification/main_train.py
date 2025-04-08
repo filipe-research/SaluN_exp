@@ -52,6 +52,7 @@ def main():
 
     print(f"number of train dataset {len(train_loader.dataset)}")
     print(f"number of val dataset {len(val_loader.dataset)}")
+    print(f"number of test dataset {len(test_loader.dataset)}")
 
     criterion = nn.CrossEntropyLoss()
     decreasing_lr = list(map(int, args.decreasing_lr.split(",")))
@@ -115,12 +116,12 @@ def main():
         )
         acc = train(train_loader, model, criterion, optimizer, epoch, args)
 
-        # evaluate on validation set
-        tacc = validate(val_loader, model, criterion, args)
+        # evaluate on test set
+        tacc = validate(test_loader, model, criterion, args)
         scheduler.step()
 
         all_result["train_ta"].append(acc)
-        all_result["val_ta"].append(tacc)
+        all_result["test_ta"].append(tacc)
 
         # remember best prec@1 and save checkpoint
         is_best_sa = tacc > best_sa
@@ -143,20 +144,21 @@ def main():
 
     # plot training curve
     plt.plot(all_result["train_ta"], label="train_acc")
-    plt.plot(all_result["val_ta"], label="val_acc")
+    plt.plot(all_result["test_ta"], label="test_acc")
     plt.legend()
     plt.savefig(os.path.join(args.save_dir, str(state) + "net_train.png"))
     plt.close()
 
-    print("Performance on the test data set")
-    test_tacc = validate(val_loader, model, criterion, args)
-    if len(all_result["val_ta"]) != 0:
-        val_pick_best_epoch = np.argmax(np.array(all_result["val_ta"]))
-        print(
-            "* best SA = {}, Epoch = {}".format(
-                all_result["val_ta"][val_pick_best_epoch], val_pick_best_epoch + 1
-            )
+    # print("Performance on the test data set")
+    # test_tacc = validate(val_loader, model, criterion, args)
+    # if len(all_result["val_ta"]) != 0:
+    #val_pick_best_epoch = np.argmax(np.array(all_result["val_ta"]))
+    test_pick_best_epoch = np.argmax(np.array(all_result["test_ta"]))
+    print(
+        "* best SA = {}, Epoch = {}".format(
+            all_result["test_ta"][test_pick_best_epoch], test_pick_best_epoch + 1
         )
+    )
 
 if __name__ == "__main__":
     main()

@@ -215,11 +215,11 @@ def cifar100_dataloaders(
         ]
     )
 
-    print(
-        "Dataset information: CIFAR-100\t 45000 images for training \t 500 images for validation\t"
-    )
-    print("10000 images for testing\t no normalize applied in data_transform")
-    print("Data augmentation = randomcrop(32,4) + randomhorizontalflip")
+    # print(
+    #     "Dataset information: CIFAR-100\t 45000 images for training \t 500 images for validation\t"
+    # )
+    # print("10000 images for testing\t no normalize applied in data_transform")
+    # print("Data augmentation = randomcrop(32,4) + randomhorizontalflip")
     train_set = CIFAR100(data_dir, train=True, transform=train_transform, download=True)
 
     test_set = CIFAR100(data_dir, train=False, transform=test_transform, download=True)
@@ -227,20 +227,21 @@ def cifar100_dataloaders(
     test_set.targets = np.array(test_set.targets)
 
     rng = np.random.RandomState(seed)
-    valid_set = copy.deepcopy(train_set)
-    valid_idx = []
-    for i in range(max(train_set.targets) + 1):
-        class_idx = np.where(train_set.targets == i)[0]
-        valid_idx.append(
-            rng.choice(class_idx, int(0.1 * len(class_idx)), replace=False)
-        )
-    valid_idx = np.hstack(valid_idx)
+    valid_set = copy.deepcopy(test_set)
+    # valid_idx = []
+    # for i in range(max(train_set.targets) + 1):
+    #     class_idx = np.where(train_set.targets == i)[0]
+    #     valid_idx.append(
+    #         rng.choice(class_idx, int(0.1 * len(class_idx)), replace=False)
+    #     )
+    # valid_idx = np.hstack(valid_idx)
     train_set_copy = copy.deepcopy(train_set)
 
-    valid_set.data = train_set_copy.data[valid_idx]
-    valid_set.targets = train_set_copy.targets[valid_idx]
+    # valid_set.data = train_set_copy.data[valid_idx]
+    # valid_set.targets = train_set_copy.targets[valid_idx]
 
-    train_idx = list(set(range(len(train_set))) - set(valid_idx))
+    #train_idx = list(set(range(len(train_set))) - set(valid_idx))
+    train_idx = list(set(range(len(train_set))))
 
 
     noise_file = f'cifar100_{noise_rate}_sym.json'
@@ -630,11 +631,11 @@ def cifar10_dataloaders(
         ]
     )
 
-    print(
-        "Dataset information: CIFAR-10\t 45000 images for training \t 5000 images for validation\t"
-    )
-    print("10000 images for testing\t no normalize applied in data_transform")
-    print("Data augmentation = randomcrop(32,4) + randomhorizontalflip")
+    # print(
+    #     "Dataset information: CIFAR-10\t 45000 images for training \t 5000 images for validation\t"
+    # )
+    # print("10000 images for testing\t no normalize applied in data_transform")
+    # print("Data augmentation = randomcrop(32,4) + randomhorizontalflip")
 
     train_set = CIFAR10(data_dir, train=True, transform=train_transform, download=True)
 
@@ -646,21 +647,22 @@ def cifar10_dataloaders(
     test_set.targets = np.array(test_set.targets)
 
     rng = np.random.RandomState(seed)
-    valid_set = copy.deepcopy(train_set)
-    valid_idx = []
-    for i in range(max(train_set.targets) + 1):
-        class_idx = np.where(train_set.targets == i)[0]
-        valid_idx.append(
-            rng.choice(class_idx, int(0.1 * len(class_idx)), replace=False)
-        )
-    valid_idx = np.hstack(valid_idx)
+    valid_set = copy.deepcopy(test_set)
+    # valid_idx = []
+    # for i in range(max(train_set.targets) + 1):
+    #     class_idx = np.where(train_set.targets == i)[0]
+    #     valid_idx.append(
+    #         rng.choice(class_idx, int(0.1 * len(class_idx)), replace=False)
+    #     )
+    # valid_idx = np.hstack(valid_idx)
     train_set_copy = copy.deepcopy(train_set)
     train_clean_set = copy.deepcopy(train_set)
 
-    valid_set.data = train_set_copy.data[valid_idx]
-    valid_set.targets = train_set_copy.targets[valid_idx]
+    # valid_set.data = train_set_copy.data[valid_idx]
+    # valid_set.targets = train_set_copy.targets[valid_idx]
 
-    train_idx = list(set(range(len(train_set))) - set(valid_idx))
+    #train_idx = list(set(range(len(train_set))) - set(valid_idx))
+    train_idx = list(set(range(len(train_set))))
 
     
     # noise_labels = None
