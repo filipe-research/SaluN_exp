@@ -136,6 +136,7 @@ def setup_model_dataset(args):
             num_indexes_to_replace=args.num_indexes_to_replace,
             #indexes_to_replace=args.indexes_to_replace,
             indexes_to_replace=indexes_to_replace,
+            noise_rate=args.noise_rate,
             seed=args.seed,
             only_mark=True,
             shuffle=True,
@@ -210,6 +211,7 @@ def setup_model_dataset(args):
             #removi a linha de baixo para não substituir aleatoriamente
             # class_to_replace=args.class_to_replace,
             num_indexes_to_replace=args.num_indexes_to_replace,
+            noise_rate=args.noise_rate,
             # indexes_to_replace=args.indexes_to_replace,
             indexes_to_replace=indexes_to_replace,
             seed=args.seed,
