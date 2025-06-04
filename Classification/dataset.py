@@ -254,6 +254,7 @@ def cifar100_dataloaders(
             #train_set_copy.targets[train_idx] = np.array(noise_labels)
             train_set_copy.targets = np.array(noise_labels)
             train_set.targets = train_set_copy.targets
+            import pdb; pdb.set_trace()
             
         
     else:
@@ -301,6 +302,7 @@ def cifar100_dataloaders(
 
         noise_labels = [int(x) for x in noise_labels]
         clean_idx = list(set(range(len(train_idx))) - set(closed_noise))
+        import pdb; pdb.set_trace()
         noise = {'noise_labels': noise_labels,  'closed_noise': closed_noise, 'clean_idx':clean_idx}
 
         print("save noise to %s ..." % noise_file)
