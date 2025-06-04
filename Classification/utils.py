@@ -196,7 +196,7 @@ def setup_model_dataset(args):
             noise_file = f'cifar100_{args.noise_rate}_sym.json'
             noise = json.load(open(noise_file, "r"))
             indexes_to_replace = noise['closed_noise']
-            import pdb; pdb.set_trace()
+            # import pdb; pdb.set_trace()
             indexes_to_replace = indexes_to_replace[:int(len(indexes_to_replace)*args.forget_rate)]
             #print("debug")
             #debug
