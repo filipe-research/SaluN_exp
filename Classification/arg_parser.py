@@ -151,4 +151,11 @@ def parse_args():
         help="noise rate",
     )
 
+    parser.add_argument(
+        "--forget_rate",
+        default=1,
+        type=float,
+        help="forget_noise rate",
+    )
+
     return parser.parse_args()

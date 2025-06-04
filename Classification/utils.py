@@ -123,6 +123,7 @@ def setup_model_dataset(args):
             noise_file = f'cifar10_{args.noise_rate}_sym.json'
             noise = json.load(open(noise_file, "r"))
             indexes_to_replace = noise['closed_noise']
+            
         else:
             indexes_to_replace = args.indexes_to_replace
         
@@ -187,11 +188,18 @@ def setup_model_dataset(args):
         )
         train_full_loader, val_loader, _ = cifar100_dataloaders(
             batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers,noise_rate=args.noise_rate
+        
         )
+
         if args.indexes_to_replace is not None:
             noise_file = f'cifar100_{args.noise_rate}_sym.json'
             noise = json.load(open(noise_file, "r"))
             indexes_to_replace = noise['closed_noise']
+
+            indexes_to_replace = indexes_to_replace[:int(len(indexes_to_replace)*args.forget_rate)]
+            #print("debug")
+            #debug
+
         else:
             indexes_to_replace = args.indexes_to_replace
 
