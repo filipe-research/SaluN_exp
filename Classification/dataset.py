@@ -262,7 +262,7 @@ def cifar100_dataloaders(
         noise_labels = []  # all labels (some noisy, some clean)
         #idx = list(range(50000))  # indices of cifar dataset
         idx = train_idx
-        # random.shuffle(idx)
+        random.shuffle(idx)
         #num_total_noise = int(self.r * 50000)  # total amount of noise
         num_total_noise = int(noise_rate * len(train_idx))  # total amount of noise
         

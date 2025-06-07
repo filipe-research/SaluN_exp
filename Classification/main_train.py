@@ -107,6 +107,8 @@ def main():
         start_epoch = 0
         state = 0
 
+    total_start_time = time.time()
+
     for epoch in range(start_epoch, args.epochs):
         start_time = time.time()
         print(
@@ -159,6 +161,11 @@ def main():
             all_result["test_ta"][test_pick_best_epoch], test_pick_best_epoch + 1
         )
     )
+
+    total_duration = time.time() - total_start_time
+    print(f"\nTempo total de treino: {total_duration / 60:.2f} minutos ({total_duration:.2f} segundos)")
+
+
 
 if __name__ == "__main__":
     main()
