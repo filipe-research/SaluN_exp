@@ -11,6 +11,7 @@ import torch.utils.data
 import unlearn
 import utils
 from trainer import validate
+import time
 
 def main():
     args = arg_parser.parse_args()
@@ -137,8 +138,11 @@ def main():
             model.load_state_dict(checkpoint, strict=False)
 
         unlearn_method = unlearn.get_unlearn_method(args.unlearn)
+        total_start_time = time.time()
         unlearn_method(unlearn_data_loaders, model, criterion, args, mask)
         unlearn.save_unlearn_checkpoint(model, None, args)
+        total_duration = time.time() - total_start_time
+        print(f"\nTempo total de treino: {total_duration / 60:.2f} minutos ({total_duration:.2f} segundos)")
 
     if evaluation_result is None:
         evaluation_result = {}
