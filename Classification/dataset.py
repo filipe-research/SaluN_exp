@@ -13,6 +13,7 @@ import numpy as np
 import torch
 from PIL import Image
 from scipy import stats
+import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from torchvision.datasets import CIFAR10, CIFAR100, Food101, SVHN, ImageFolder
