@@ -120,7 +120,8 @@ def setup_model_dataset(args):
         )
 
         if args.indexes_to_replace is not None:
-            noise_file = f'cifar10_{args.noise_rate}_sym.json'
+            #noise_file = f'cifar10_{args.noise_rate}_sym.json'
+            noise_file = f'cifar10_{args.noise_rate}_{args.noise_mode}.json'
             noise = json.load(open(noise_file, "r"))
             indexes_to_replace = noise['closed_noise']
             indexes_to_replace = indexes_to_replace[:int(len(indexes_to_replace)*args.forget_rate)]

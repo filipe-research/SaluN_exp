@@ -1,13 +1,13 @@
 # base = "cifar10"
 # base = "cifar100"
-base = "cifar10_idn"
-# base = "cifar100_idn"
+# base = "cifar10_idn"
+base = "cifar100_idn"
 
 
 datapath = "/home/pesquisador/pesquisa/datasets"
 # datapath = "/mnt/hd_pesquisa/pesquisa/datasets"
 
-nr = 0.2
+nr = 0.5
 
 method = "baseline"
 # method = "retrain"
