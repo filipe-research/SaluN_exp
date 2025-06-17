@@ -152,6 +152,20 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--noise_mode",
+        default="sym",
+        type=str,
+        help="noise mode",
+    )
+
+    parser.add_argument(
+        "--open_ratio",
+        default=0.0,
+        type=float,
+        help="Proporção do total de ruído (noise_rate) que será open-set",
+    )
+
+    parser.add_argument(
         "--forget_rate",
         default=1,
         type=float,

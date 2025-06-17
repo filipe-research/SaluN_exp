@@ -116,7 +116,7 @@ def setup_model_dataset(args):
             mean=[0.4914, 0.4822, 0.4465], std=[0.2470, 0.2435, 0.2616]
         )
         train_full_loader, val_loader, _ = cifar10_dataloaders(
-            batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers, noise_rate=args.noise_rate
+            batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers, noise_rate=args.noise_rate, noise_mode=args.noise_mode
         )
 
         if args.indexes_to_replace is not None:
@@ -301,6 +301,175 @@ def setup_model_dataset(args):
         train_set_loader, val_loader, test_loader = cifar10_dataloaders_no_val(
             batch_size=args.batch_size, data_dir=args.data, num_workers=args.workers
         )
+    elif args.dataset == "cifar10_idn":
+        classes = 10
+        normalization = NormalizeByChannelMeanStd(
+            mean=[0.4914, 0.4822, 0.4465], std=[0.2470, 0.2435, 0.2616]
+        )
+        train_full_loader, val_loader, _ = cifar10_idn_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            noise_rate=args.noise_rate,
+        )
+
+        if args.indexes_to_replace is not None:
+            noise_file = f"cifar10_idn_{args.noise_rate}_sym.json"
+            noise = json.load(open(noise_file, "r"))
+            indexes_to_replace = noise["closed_noise"]
+        else:
+            indexes_to_replace = args.indexes_to_replace
+
+        marked_loader, _, test_loader = cifar10_idn_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            seed=args.seed,
+            no_aug=args.no_aug,
+        )
+
+        if args.train_seed is None:
+            args.train_seed = args.seed
+        setup_seed(args.train_seed)
+
+        if args.imagenet_arch:
+            model = model_dict[args.arch](num_classes=classes, imagenet=True)
+        else:
+            model = model_dict[args.arch](num_classes=classes)
+
+        setup_seed(args.train_seed)
+
+        model.normalize = normalization
+        return model, train_full_loader, val_loader, test_loader, marked_loader
+
+    elif args.dataset == "cifar100_idn":
+        classes = 100
+        normalization = NormalizeByChannelMeanStd(
+            mean=[0.5071, 0.4866, 0.4409], std=[0.2673, 0.2564, 0.2762]
+        )
+        train_full_loader, val_loader, _ = cifar100_idn_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            noise_rate=args.noise_rate,
+        )
+
+        if args.indexes_to_replace is not None:
+            noise_file = f"cifar100_idn_{args.noise_rate}_sym.json"
+            noise = json.load(open(noise_file, "r"))
+            indexes_to_replace = noise["closed_noise"]
+        else:
+            indexes_to_replace = args.indexes_to_replace
+
+        marked_loader, _, test_loader = cifar100_idn_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            seed=args.seed,
+            no_aug=args.no_aug,
+        )
+
+        if args.train_seed is None:
+            args.train_seed = args.seed
+        setup_seed(args.train_seed)
+
+        if args.imagenet_arch:
+            model = model_dict[args.arch](num_classes=classes, imagenet=True)
+        else:
+            model = model_dict[args.arch](num_classes=classes)
+
+        setup_seed(args.train_seed)
+
+        model.normalize = normalization
+        return model, train_full_loader, val_loader, test_loader, marked_loader
+
+    elif args.dataset == "cifar10_open":
+        classes = 10
+        normalization = NormalizeByChannelMeanStd(
+            mean=[0.4914, 0.4822, 0.4465],
+            std=[0.2470, 0.2435, 0.2616]
+        )
+    
+        train_full_loader, val_loader, _ = cifar10_openset_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            noise_rate=args.noise_rate,
+            open_ratio=args.open_ratio,
+        )
+
+        marked_loader, _, test_loader = cifar10_openset_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            seed=args.seed,
+            no_aug=args.no_aug,
+            noise_rate=args.noise_rate,
+            open_ratio=args.open_ratio,
+        )
+        
+        if args.train_seed is None:
+            args.train_seed = args.seed
+        setup_seed(args.train_seed)
+        
+        if args.imagenet_arch:
+            model = model_dict[args.arch](num_classes=classes, imagenet=True)
+        else:
+            model = model_dict[args.arch](num_classes=classes)
+            
+        setup_seed(args.train_seed)
+        model.normalize = normalization
+        
+        return model, train_full_loader, val_loader, test_loader, marked_loader
+
+    elif args.dataset == "food101n":
+        classes = 101
+        normalization = NormalizeByChannelMeanStd(
+            mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+        )
+
+        print(
+            "--- Carregando Food-101N: Standard Training Loader (train_full_loader) ---"
+        )
+        train_full_loader, test_loader = food101n_dataloaders(
+            batch_size=args.batch_size,
+            food101n_dir=args.data + "/food-101n",
+            food101_dir=args.data + "/food101",
+            num_workers=args.workers,
+            seed=args.seed,
+            no_aug=args.no_aug,
+            mark_verified_noisy_forget=False
+        )
+
+        marked_loader, val_loader = food101n_dataloaders( # Não precisamos do test_loader desta chamada
+            batch_size=args.batch_size, 
+            food101n_dir=args.data + "/food-101n",
+            food101_dir=args.data + "/food101",
+            num_workers=args.workers,
+            seed=args.seed, 
+            no_aug=args.no_aug,
+            mark_verified_noisy_forget=True
+        )
+
+        print(f"Dataset: Food-101N. Classes: {classes}.")
+        if train_full_loader and train_full_loader.dataset:
+            print(f"Train loader (full) size: {len(train_full_loader)} batches ({len(train_full_loader.dataset)} amostras)")
+        if marked_loader and marked_loader.dataset:
+            print(f"Marked loader size: {len(marked_loader)} batches ({len(marked_loader.dataset)} amostras)")
+            num_actually_marked = np.sum(np.array(marked_loader.dataset.targets) < 0)
+            print(f"  -> Amostras com target negativo no marked_loader.dataset: {num_actually_marked}")
+        if test_loader and test_loader.dataset:
+            print(f"Test loader size: {len(test_loader)} batches ({len(test_loader.dataset)} amostras)")
+
+        if args.train_seed is None:
+            args.train_seed = args.seed
+        setup_seed(args.train_seed)
+
+        if args.imagenet_arch:
+            print("Usando arquitetura pré-treinada no ImageNet.")
+            model = model_dict[args.arch](num_classes=classes, imagenet=True)
+        else:
+            print("Usando arquitetura do zero.")
+            model = model_dict[args.arch](num_classes=classes)
+
+        model.normalize = normalization
+
+        return model, train_full_loader, val_loader, test_loader, marked_loader
+
 
     else:
         raise ValueError("Dataset not supprot yet !")
