@@ -23,8 +23,8 @@ nr = parameter_closed + parameter_open
 open_r = parameter_open/nr
 
 
-method = "baseline"
-# method = "retrain"
+# method = "baseline"
+method = "retrain"
 # method = "salun"
 
 # noise_mode = "sym"

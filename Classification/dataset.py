@@ -20,6 +20,7 @@ from torchvision.datasets import CIFAR10, CIFAR100, Food101, SVHN, ImageFolder
 from tqdm import tqdm
 import json
 import random
+import pandas as pd
 
 def cifar10_dataloaders_no_val(
     batch_size=128, data_dir="datasets/cifar10", num_workers=2
