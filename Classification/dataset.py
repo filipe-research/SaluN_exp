@@ -1087,7 +1087,7 @@ def cifar10_openset_dataloaders(
         open_data = CIFAR100(data_dir, train=True, transform=train_transform, download=True)
 
     if noise_file is None:
-        noise_file = f"cifar10_{noise_rate}_{open_ratio}_sym.json"
+        noise_file = f"cifar10idn_{noise_rate}_{open_ratio}_sym.json"
 
     if os.path.exists(noise_file):
         noise = json.load(open(noise_file, "r"))

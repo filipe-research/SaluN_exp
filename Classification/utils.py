@@ -412,7 +412,7 @@ def setup_model_dataset(args):
 
         if args.indexes_to_replace is not None:
             
-            noise_file = f"cifar10_idn_{args.noise_rate}_{args.open_ratio}_sym.json"
+            noise_file = f"cifar10idn_{args.noise_rate}_{args.open_ratio}_sym.json"
             noise = json.load(open(noise_file, "r"))
             #indexes_to_replace = noise["closed_noise"]
             indexes_to_replace = noise['idx_noisy']
