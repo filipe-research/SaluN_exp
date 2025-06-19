@@ -89,7 +89,8 @@ def main():
             retain_dataset = copy.deepcopy(marked_loader.dataset)
             marked = retain_dataset.targets >= 0
             #retain_dataset.data = retain_dataset.data[marked]
-            retain_dataset.image_paths = retain_dataset.image_paths[marked]
+            # retain_dataset.image_paths = retain_dataset.image_paths[marked]
+            retain_dataset.image_paths = np.array(retain_dataset.image_paths)[marked].tolist()
             retain_dataset.targets = retain_dataset.targets[marked]
             retain_loader = replace_loader_dataset(
                 retain_dataset, seed=seed, shuffle=True
