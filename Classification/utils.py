@@ -310,7 +310,10 @@ def setup_model_dataset(args):
         train_full_loader, val_loader, _ = cifar10_idn_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
+            seed=args.seed,
             noise_rate=args.noise_rate,
+            only_mark =True,
+            indexes_to_replace=args.indexes_to_replace
         )
 
         if args.indexes_to_replace is not None:
@@ -352,6 +355,7 @@ def setup_model_dataset(args):
         train_full_loader, val_loader, _ = cifar100_idn_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
+            seed=args.seed,
             noise_rate=args.noise_rate,
             only_mark =False,
             indexes_to_replace=args.indexes_to_replace
