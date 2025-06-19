@@ -11,6 +11,7 @@ import torch.utils.data
 import unlearn
 import utils
 from trainer import validate
+import numpy as np
 
 def main():
     args = arg_parser.parse_args()
@@ -78,8 +79,9 @@ def main():
             # import pdb; pdb.set_trace()
             marked = forget_dataset.targets < 0
             #forget_dataset.data = forget_dataset.data[marked]
-            import pdb; pdb.set_trace()
-            forget_dataset.image_paths = forget_dataset.image_paths[marked]
+            # import pdb; pdb.set_trace()
+            # forget_dataset.image_paths = forget_dataset.image_paths[marked]
+            forget_dataset.image_paths = np.array(forget_dataset.image_paths)[marked].tolist()
             forget_dataset.targets = -forget_dataset.targets[marked] - 1
             forget_loader = replace_loader_dataset(
                 forget_dataset, seed=seed, shuffle=True
