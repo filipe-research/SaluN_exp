@@ -1004,7 +1004,7 @@ def cifar100_idn_dataloaders(
 
     # Aplicar rótulos ruidosos
     train_set.targets = np.array(noise_labels)
-    # import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     if indexes_to_replace is not None or indexes_to_replace == 450:
         replace_indexes(
             dataset=train_set,
@@ -1165,7 +1165,7 @@ def cifar10_openset_dataloaders(
     train_set.data = train_set_copy.data[train_idx]
     train_set.targets = train_set_copy.targets[train_idx]
 
-    import pdb; pdb.set_trace()
+    
     if indexes_to_replace is not None or indexes_to_replace == 450:
         replace_indexes(
             dataset=train_set,
