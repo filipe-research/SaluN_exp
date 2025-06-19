@@ -1,15 +1,15 @@
 # base = "cifar10"
-# base = "cifar100"
+base = "cifar100"
 # base = "cifar10_idn"
 # base = "cifar100_idn"
-base = "food101n"
+# base = "food101n"
 
 
 
-datapath = "/home/pesquisador/pesquisa/datasets"
-# datapath = "/mnt/hd_pesquisa/pesquisa/datasets"
+# datapath = "/home/pesquisador/pesquisa/datasets"
+datapath = "/mnt/hd_pesquisa/pesquisa/datasets"
 
-nr = 0.0
+nr = 0.8
 
 # method = "baseline"
 # method = "retrain"

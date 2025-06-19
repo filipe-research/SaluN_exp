@@ -399,11 +399,7 @@ def setup_model_dataset(args):
 
         )
 
-        if args.indexes_to_replace is not None:
-            noise_file = f"cifar100_idn_{args.noise_rate}_sym.json"
-            noise = json.load(open(noise_file, "r"))
-            #indexes_to_replace = noise["closed_noise"]
-            indexes_to_replace = noise['idx_noisy']
+        
     
         train_full_loader, val_loader, _ = cifar10_openset_dataloaders(
             batch_size=args.batch_size,
@@ -413,6 +409,12 @@ def setup_model_dataset(args):
             open_ratio=args.open_ratio,
             only_mark =False
         )
+
+        if args.indexes_to_replace is not None:
+            noise_file = f"cifar100_idn_{args.noise_rate}_sym.json"
+            noise = json.load(open(noise_file, "r"))
+            #indexes_to_replace = noise["closed_noise"]
+            indexes_to_replace = noise['idx_noisy']
 
         marked_loader, _, test_loader = cifar10_openset_dataloaders(
             batch_size=args.batch_size,
