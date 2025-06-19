@@ -75,6 +75,7 @@ def main():
         )
     else:
         try:
+            import pdb; pdb.set_trace()
             marked = forget_dataset.targets < 0
             forget_dataset.data = forget_dataset.data[marked]
             forget_dataset.targets = -forget_dataset.targets[marked] - 1
@@ -92,6 +93,7 @@ def main():
                 train_loader_full.dataset
             )
         except:
+
             marked = forget_dataset.targets < 0
             forget_dataset.imgs = forget_dataset.imgs[marked]
             forget_dataset.targets = -forget_dataset.targets[marked] - 1
