@@ -139,6 +139,7 @@ def setup_model_dataset(args):
             #indexes_to_replace=args.indexes_to_replace,
             indexes_to_replace=indexes_to_replace,
             noise_rate=args.noise_rate,
+            noise_mode=args.noise_mode,
             seed=args.seed,
             only_mark=True,
             shuffle=True,
