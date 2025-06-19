@@ -358,7 +358,7 @@ def setup_model_dataset(args):
             noise_rate=args.noise_rate,
             only_mark =False
         )
-        # import pdb; pdb.set_trace()
+        
         if args.indexes_to_replace is not None:
             noise_file = f"cifar100_idn_{args.noise_rate}_sym.json"
             noise = json.load(open(noise_file, "r"))
@@ -366,6 +366,7 @@ def setup_model_dataset(args):
         else:
             indexes_to_replace = args.indexes_to_replace
 
+            import pdb; pdb.set_trace()
         marked_loader, _, test_loader = cifar100_idn_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
