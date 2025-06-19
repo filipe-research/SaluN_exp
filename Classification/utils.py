@@ -312,8 +312,7 @@ def setup_model_dataset(args):
             data_dir=args.data,
             seed=args.seed,
             noise_rate=args.noise_rate,
-            only_mark =True,
-            indexes_to_replace=args.indexes_to_replace
+            only_mark =False
         )
 
         if args.indexes_to_replace is not None:
@@ -357,8 +356,7 @@ def setup_model_dataset(args):
             data_dir=args.data,
             seed=args.seed,
             noise_rate=args.noise_rate,
-            only_mark =False,
-            indexes_to_replace=args.indexes_to_replace
+            only_mark =False
         )
         # import pdb; pdb.set_trace()
         if args.indexes_to_replace is not None:
@@ -409,10 +407,10 @@ def setup_model_dataset(args):
         train_full_loader, val_loader, _ = cifar10_openset_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
+            seed=args.seed,
             noise_rate=args.noise_rate,
             open_ratio=args.open_ratio,
-            only_mark =False,
-            indexes_to_replace=args.indexes_to_replace
+            only_mark =False
         )
 
         marked_loader, _, test_loader = cifar10_openset_dataloaders(
