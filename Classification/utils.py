@@ -326,6 +326,8 @@ def setup_model_dataset(args):
             seed=args.seed,
             no_aug=args.no_aug,
             noise_rate=args.noise_rate,
+            only_mark =True,
+            indexes_to_replace=args.indexes_to_replace
         )
 
         if args.train_seed is None:
@@ -366,6 +368,8 @@ def setup_model_dataset(args):
             seed=args.seed,
             no_aug=args.no_aug,
             noise_rate=args.noise_rate,
+            only_mark =True,
+            indexes_to_replace=args.indexes_to_replace
         )
 
         if args.train_seed is None:
@@ -387,13 +391,22 @@ def setup_model_dataset(args):
         normalization = NormalizeByChannelMeanStd(
             mean=[0.4914, 0.4822, 0.4465],
             std=[0.2470, 0.2435, 0.2616]
+
         )
+
+        if args.indexes_to_replace is not None:
+            noise_file = f"cifar100_idn_{args.noise_rate}_sym.json"
+            noise = json.load(open(noise_file, "r"))
+            #indexes_to_replace = noise["closed_noise"]
+            indexes_to_replace = noise['idx_noisy']
     
         train_full_loader, val_loader, _ = cifar10_openset_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
             noise_rate=args.noise_rate,
             open_ratio=args.open_ratio,
+            only_mark =False,
+            indexes_to_replace=args.indexes_to_replace
         )
 
         marked_loader, _, test_loader = cifar10_openset_dataloaders(
@@ -403,6 +416,8 @@ def setup_model_dataset(args):
             no_aug=args.no_aug,
             noise_rate=args.noise_rate,
             open_ratio=args.open_ratio,
+            only_mark =True,
+            indexes_to_replace=args.indexes_to_replace
         )
         
         if args.train_seed is None:

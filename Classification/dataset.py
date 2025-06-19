@@ -823,6 +823,8 @@ def cifar10_idn_dataloaders(
     no_aug=False,
     noise_rate=0.0,
     noise_file=None,
+    indexes_to_replace=None,
+    only_mark: bool = False,
 ):
     if no_aug:
         train_transform = transforms.Compose(
@@ -893,6 +895,14 @@ def cifar10_idn_dataloaders(
     # Aplicar rótulos ruidosos
     train_set.targets = np.array(noise_labels)
 
+    if indexes_to_replace is not None or indexes_to_replace == 450:
+        replace_indexes(
+            dataset=train_set,
+            indexes=indexes_to_replace,
+            seed=seed - 1,
+            only_mark=only_mark,
+        )
+
     loader_args = {"num_workers": 0, "pin_memory": False}
 
     def _init_fn(worker_id):
@@ -923,6 +933,8 @@ def cifar100_idn_dataloaders(
     no_aug=False,
     noise_rate=0.0,
     noise_file=None,
+    indexes_to_replace=None,
+    only_mark: bool = False,
 ):
     if no_aug:
         train_transform = transforms.Compose(
@@ -993,6 +1005,14 @@ def cifar100_idn_dataloaders(
     # Aplicar rótulos ruidosos
     train_set.targets = np.array(noise_labels)
 
+    if indexes_to_replace is not None or indexes_to_replace == 450:
+        replace_indexes(
+            dataset=train_set,
+            indexes=indexes_to_replace,
+            seed=seed - 1,
+            only_mark=only_mark,
+        )
+
     loader_args = {"num_workers": 0, "pin_memory": False}
 
     def _init_fn(worker_id):
@@ -1024,6 +1044,8 @@ def cifar10_openset_dataloaders(
     noise_rate=0.0,
     noise_file=None,
     open_ratio=0.0,
+    indexes_to_replace=None,
+    only_mark: bool = False,
 ):
     if no_aug:
         train_transform = transforms.Compose(
@@ -1127,9 +1149,11 @@ def cifar10_openset_dataloaders(
         train_set.targets = train_set_copy.targets
         noise_labels = [int(x) for x in noise_labels]
         clean_idx = list(set(range(len(train_idx))) - set(closed_noise))
+        idx_noisy = idx[:num_total_noise]
 
         noise = {
             "noise_labels": noise_labels,
+            "idx_noisy": idx_noisy,
             "closed_noise": closed_noise,
             "open_noise": open_noise,
             "clean_idx": clean_idx,
@@ -1140,6 +1164,14 @@ def cifar10_openset_dataloaders(
 
     train_set.data = train_set_copy.data[train_idx]
     train_set.targets = train_set_copy.targets[train_idx]
+
+    if indexes_to_replace is not None or indexes_to_replace == 450:
+        replace_indexes(
+            dataset=train_set,
+            indexes=indexes_to_replace,
+            seed=seed - 1,
+            only_mark=only_mark,
+        )
 
     # Create dataloaders
     loader_args = {"num_workers": 0, "pin_memory": False}
