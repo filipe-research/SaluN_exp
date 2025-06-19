@@ -353,7 +353,7 @@ def setup_model_dataset(args):
             batch_size=args.batch_size,
             data_dir=args.data,
             noise_rate=args.noise_rate,
-            nly_mark =False,
+            only_mark =False,
             indexes_to_replace=args.indexes_to_replace
         )
         # import pdb; pdb.set_trace()
