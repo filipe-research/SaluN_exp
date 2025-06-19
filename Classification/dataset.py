@@ -1442,6 +1442,7 @@ def replace_indexes(
             dataset._labels[indexes] = dataset._labels[new_indexes]
     else:
         # Notice the -1 to make class 0 work
+        import pdb; pdb.set_trace()
         try:
             dataset.targets[indexes] = -dataset.targets[indexes] - 1
         except:
