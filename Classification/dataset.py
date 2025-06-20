@@ -1098,7 +1098,7 @@ def cifar10_openset_dataloaders(
             open_noise = noise["open_noise"]
 
             for cleanIdx, noisyIdx in open_noise:
-                train_set.data[cleanIdx] = (
+                train_set_copy.data[cleanIdx] = (
                     open_data[noisyIdx][0].numpy().transpose(1, 2, 0)
                 )
 

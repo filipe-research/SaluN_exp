@@ -417,7 +417,7 @@ def setup_model_dataset(args):
             noise = json.load(open(noise_file, "r"))
             #indexes_to_replace = noise["closed_noise"]
             indexes_to_replace = noise['idx_noisy']
-            import pdb; pdb.set_trace()
+            # import pdb; pdb.set_trace()
 
         marked_loader, _, test_loader = cifar10_openset_dataloaders(
             batch_size=args.batch_size,
