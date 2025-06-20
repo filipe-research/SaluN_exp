@@ -181,7 +181,8 @@ def main():
 
         #debug
         import pdb; pdb.set_trace()
-        loader = retain_loader
+        # loader = retain_loader
+        loader = marked_loader
         utils.dataset_convert_to_test(loader.dataset, args)
         val_acc = validate(loader, model, criterion, args)
         # accuracy[name] = val_acc
