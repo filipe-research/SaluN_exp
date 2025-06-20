@@ -211,9 +211,10 @@ def main():
         forget_len = len(forget_dataset)
         retain_len = len(retain_dataset)
 
-        utils.dataset_convert_to_test(retain_dataset, args)
-        utils.dataset_convert_to_test(forget_loader, args)
-        utils.dataset_convert_to_test(test_loader, args)
+        if args.dataset != "food101n":
+            utils.dataset_convert_to_test(retain_dataset, args)
+            utils.dataset_convert_to_test(forget_loader, args)
+            utils.dataset_convert_to_test(test_loader, args)
 
         shadow_train = torch.utils.data.Subset(retain_dataset, list(range(test_len)))
         shadow_train_loader = torch.utils.data.DataLoader(
