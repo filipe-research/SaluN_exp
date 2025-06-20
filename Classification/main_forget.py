@@ -179,16 +179,6 @@ def main():
 
         unlearn_method = unlearn.get_unlearn_method(args.unlearn)
 
-        #debug
-        import pdb; pdb.set_trace()
-        loader = retain_loader
-        # loader = marked_loader
-        # loader = train_loader_full
-        # utils.dataset_convert_to_test(loader.dataset, args)
-        val_acc = validate(loader, model, criterion, args)
-        # accuracy[name] = val_acc
-        print(f"acc: {val_acc}")
-        #end debug
 
         unlearn_method(unlearn_data_loaders, model, criterion, args)
         unlearn.save_unlearn_checkpoint(model, None, args)
@@ -199,7 +189,8 @@ def main():
     if "new_accuracy" not in evaluation_result:
         accuracy = {}
         for name, loader in unlearn_data_loaders.items():
-            utils.dataset_convert_to_test(loader.dataset, args)
+            if args.dataset != "food101n":
+                utils.dataset_convert_to_test(loader.dataset, args)
             val_acc = validate(loader, model, criterion, args)
             accuracy[name] = val_acc
             print(f"{name} acc: {val_acc}")
