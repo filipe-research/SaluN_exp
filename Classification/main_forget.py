@@ -159,7 +159,7 @@ def main():
     unlearn_data_loaders = OrderedDict(
         retain=retain_loader, forget=forget_loader, val=val_loader, test=test_loader
     )
-    import pdb; pdb.set_trace()
+    
 
     criterion = nn.CrossEntropyLoss()
     evaluation_result = None
@@ -178,6 +178,16 @@ def main():
             model.load_state_dict(checkpoint, strict=False)
 
         unlearn_method = unlearn.get_unlearn_method(args.unlearn)
+
+        #debug
+        import pdb; pdb.set_trace()
+        loader = retain_loader
+        utils.dataset_convert_to_test(loader.dataset, args)
+        val_acc = validate(loader, model, criterion, args)
+        # accuracy[name] = val_acc
+        print(f"acc: {val_acc}")
+        #end debug
+
         unlearn_method(unlearn_data_loaders, model, criterion, args)
         unlearn.save_unlearn_checkpoint(model, None, args)
 
