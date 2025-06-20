@@ -159,6 +159,7 @@ def main():
     unlearn_data_loaders = OrderedDict(
         retain=retain_loader, forget=forget_loader, val=val_loader, test=test_loader
     )
+    import pdb; pdb.set_trace()
 
     criterion = nn.CrossEntropyLoss()
     evaluation_result = None
