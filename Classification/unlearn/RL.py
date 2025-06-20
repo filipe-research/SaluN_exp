@@ -73,7 +73,8 @@ def RL(data_loaders, model, criterion, optimizer, epoch, args, mask=None):
                 start = time.time()
       
     #elif args.dataset == "cifar10" or args.dataset == "svhn":
-    elif args.dataset == "cifar10" or args.dataset == "cifar100" or args.dataset == "svhn":
+    # elif args.dataset == "cifar10" or args.dataset == "cifar100" or args.dataset == "svhn":
+    else:
         losses = utils.AverageMeter()
         top1 = utils.AverageMeter()
       
