@@ -195,7 +195,8 @@ def main():
         #end debug
         for name, loader in unlearn_data_loaders.items():
             # if args.dataset != "food101n":
-            utils.dataset_convert_to_test(loader.dataset, args)
+            loader.dataset.train=False
+            # utils.dataset_convert_to_test(loader.dataset, args)
             val_acc = validate(loader, model, criterion, args)
             accuracy[name] = val_acc
             print(f"{name} acc: {val_acc}")
