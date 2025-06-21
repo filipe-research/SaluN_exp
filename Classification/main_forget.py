@@ -159,7 +159,7 @@ def main():
     unlearn_data_loaders = OrderedDict(
         retain=retain_loader, forget=forget_loader, val=val_loader, test=test_loader
     )
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     criterion = nn.CrossEntropyLoss()
     evaluation_result = None
@@ -188,9 +188,14 @@ def main():
 
     if "new_accuracy" not in evaluation_result:
         accuracy = {}
+        #debug
+        unlearn_data_loaders = OrderedDict(
+         test=test_loader
+        )
+        #end debug
         for name, loader in unlearn_data_loaders.items():
-            if args.dataset != "food101n":
-                utils.dataset_convert_to_test(loader.dataset, args)
+            # if args.dataset != "food101n":
+            utils.dataset_convert_to_test(loader.dataset, args)
             val_acc = validate(loader, model, criterion, args)
             accuracy[name] = val_acc
             print(f"{name} acc: {val_acc}")
