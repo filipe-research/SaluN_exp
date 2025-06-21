@@ -1104,6 +1104,7 @@ def cifar10_openset_dataloaders(
 
         train_set_copy.targets = np.array(noise_labels)
         train_set.targets = train_set_copy.targets
+        train_set.data = train_set_copy.data[train_idx]
 
     else:
         noise_labels = []
@@ -1162,8 +1163,8 @@ def cifar10_openset_dataloaders(
         print(f"Salvando configuração do ruído em {noise_file} ...")
         json.dump(noise, open(noise_file, "w"))
 
-    train_set.data = train_set_copy.data[train_idx]
-    train_set.targets = train_set_copy.targets[train_idx]
+    # train_set.data = train_set_copy.data[train_idx]
+    # train_set.targets = train_set_copy.targets[train_idx]
 
     
     if indexes_to_replace is not None or indexes_to_replace == 450:
