@@ -118,7 +118,7 @@ def main():
             )
     else:
         try:
-            # import pdb; pdb.set_trace()
+            
             marked = forget_dataset.targets < 0
             forget_dataset.data = forget_dataset.data[marked]
             forget_dataset.targets = -forget_dataset.targets[marked] - 1
@@ -127,6 +127,7 @@ def main():
             )
             retain_dataset = copy.deepcopy(marked_loader.dataset)
             marked = retain_dataset.targets >= 0
+            import pdb; pdb.set_trace()
             retain_dataset.data = retain_dataset.data[marked]
             retain_dataset.targets = retain_dataset.targets[marked]
             retain_loader = replace_loader_dataset(
