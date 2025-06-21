@@ -429,7 +429,7 @@ def setup_model_dataset(args):
             only_mark =True,
             indexes_to_replace=indexes_to_replace
         )
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         if args.train_seed is None:
             args.train_seed = args.seed
         setup_seed(args.train_seed)
