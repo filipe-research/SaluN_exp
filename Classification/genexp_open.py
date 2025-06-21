@@ -6,8 +6,8 @@ base = "cifar10_open"
 
 
 
-# datapath = "/home/pesquisador/pesquisa/datasets"
-datapath = "/mnt/hd_pesquisa/pesquisa/datasets"
+datapath = "/home/pesquisador/pesquisa/datasets"
+# datapath = "/mnt/hd_pesquisa/pesquisa/datasets"
 
 
 ###
@@ -17,8 +17,8 @@ datapath = "/mnt/hd_pesquisa/pesquisa/datasets"
 
 
 ##### closed / open  (segundo artigo)
-parameter_closed = 0.0
-parameter_open = 0.6
+parameter_closed = 0.15
+parameter_open = 0.15
 nr = parameter_closed + parameter_open
 open_r = parameter_open/nr
 
@@ -40,7 +40,15 @@ for run in range(1,6):
     if method == "baseline":
         command = f"python3 main_train.py --arch resnet18 --dataset {base} --lr 0.1 --epochs 200  --data {datapath} --save_dir {save_dir} --noise_rate {nr} --open_ratio {open_r} --indexes_to_replace [] --train_seed {seed} --seed {seed}  > {save_dir}.txt;"
     elif method == "retrain":
-        model_path = f"exp_{base}_nr{nr}_baseline_200ep_run{run}"
+        model_path = f"exp_{base}_closed{parameter_closed}_open{parameter_open}_baseline_200ep_run{run}"
+        
+
+        #exp_cifar10_open_closed0.0_open0.6_retrain_200ep_run1
         command = f"python3 main_forget.py --dataset {base} --unlearn_epochs 200 --noise_rate {nr} --open_ratio {open_r} --data {datapath} --save_dir {save_dir} --indexes_to_replace [] --unlearn retrain --unlearn_lr 0.1 --model_path {model_path}/0model_SA_best.pth.tar  --train_seed {seed} --seed {seed} > {save_dir}.txt;"
+    elif method == "salun":
+        save_dir = f"exp_{base}_closed{parameter_closed}_open{parameter_open}_{method}_run{run}"
+        baseline_dir = f"exp_{base}_closed{parameter_closed}_open{parameter_open}_baseline_200ep_run{run}"
+        command = f"python3 generate_mask.py --dataset {base} --unlearn_epochs 1 --noise_rate {nr} --open_ratio {open_r}  --data {datapath} --save_dir {save_dir} --indexes_to_replace [] --model_path {baseline_dir}/0model_SA_best.pth.tar --train_seed {seed} --seed {seed};\n"
+        command += f"python3 main_random.py --dataset {base} --unlearn_epochs 10 --noise_rate {nr} --open_ratio {open_r}  --data {datapath} --save_dir {save_dir} --indexes_to_replace [] --unlearn RL --unlearn_lr 0.013 --model_path {baseline_dir}/0model_SA_best.pth.tar --mask_path {save_dir}/with_0.5.pt --train_seed {seed} --seed {seed} > {save_dir}.txt;"
     print(command)
     print("\n")
