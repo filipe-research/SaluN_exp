@@ -108,6 +108,7 @@ def main():
             )
             retain_dataset = copy.deepcopy(marked_loader.dataset)
             marked = retain_dataset.targets >= 0
+            
             retain_dataset.imgs = retain_dataset.imgs[marked]
             retain_dataset.targets = retain_dataset.targets[marked]
             retain_loader = replace_loader_dataset(
@@ -127,7 +128,7 @@ def main():
             )
             retain_dataset = copy.deepcopy(marked_loader.dataset)
             marked = retain_dataset.targets >= 0
-            import pdb; pdb.set_trace()
+            
             retain_dataset.data = retain_dataset.data[marked]
             retain_dataset.targets = retain_dataset.targets[marked]
             retain_loader = replace_loader_dataset(
@@ -189,15 +190,10 @@ def main():
 
     if "new_accuracy" not in evaluation_result:
         accuracy = {}
-        #debug
-        unlearn_data_loaders = OrderedDict(
-         test=test_loader
-        )
-        #end debug
+        
         for name, loader in unlearn_data_loaders.items():
-            # if args.dataset != "food101n":
-            loader.dataset.train=False
-            # utils.dataset_convert_to_test(loader.dataset, args)
+            if args.dataset != "food101n":
+                utils.dataset_convert_to_test(loader.dataset, args)
             val_acc = validate(loader, model, criterion, args)
             accuracy[name] = val_acc
             print(f"{name} acc: {val_acc}")
