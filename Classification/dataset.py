@@ -1103,7 +1103,7 @@ def cifar10_openset_dataloaders(
                     
                 # )
                 train_set_copy.data[cleanIdx] = open_data.data[noisyIdx] 
-                import pdb; pdb.set_trace()
+                # import pdb; pdb.set_trace()
 
         train_set_copy.targets = np.array(noise_labels)
         train_set.targets = train_set_copy.targets
@@ -1146,9 +1146,10 @@ def cifar10_openset_dataloaders(
 
         if open_ratio>0:
             for cleanIdx, noisyIdx in open_noise:
-                train_set.data[cleanIdx] = (
-                    open_data[noisyIdx][0].numpy().transpose(1, 2, 0)
-                )
+                # train_set.data[cleanIdx] = (
+                #     open_data[noisyIdx][0].numpy().transpose(1, 2, 0)
+                # )
+                train_set.data[cleanIdx] = open_data.data[noisyIdx] 
 
         train_set.targets = train_set_copy.targets
         noise_labels = [int(x) for x in noise_labels]
