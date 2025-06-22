@@ -143,8 +143,51 @@ def main():
         assert len(forget_dataset) + len(retain_dataset) == len(
             train_loader_full.dataset
         )
+    elif args.dataset == "food101n":
+        try:
+            
+            marked = forget_dataset.targets < 0
+            #forget_dataset.data = forget_dataset.data[marked]
+            
+            # forget_dataset.image_paths = forget_dataset.image_paths[marked]
+            forget_dataset.image_paths = np.array(forget_dataset.image_paths)[marked].tolist()
+            forget_dataset.targets = -forget_dataset.targets[marked] - 1
+            forget_loader = replace_loader_dataset(
+                forget_dataset, seed=seed, shuffle=True
+            )
+            retain_dataset = copy.deepcopy(marked_loader.dataset)
+            marked = retain_dataset.targets >= 0
+            #retain_dataset.data = retain_dataset.data[marked]
+            # retain_dataset.image_paths = retain_dataset.image_paths[marked]
+            retain_dataset.image_paths = np.array(retain_dataset.image_paths)[marked].tolist()
+            retain_dataset.targets = retain_dataset.targets[marked]
+            retain_loader = replace_loader_dataset(
+                retain_dataset, seed=seed, shuffle=True
+            )
+            assert len(forget_dataset) + len(retain_dataset) == len(
+                train_loader_full.dataset
+            )
+        except:
 
+            marked = forget_dataset.targets < 0
+            forget_dataset.imgs = forget_dataset.imgs[marked]
+            forget_dataset.targets = -forget_dataset.targets[marked] - 1
+            forget_loader = replace_loader_dataset(
+                forget_dataset, seed=seed, shuffle=True
+            )
+            retain_dataset = copy.deepcopy(marked_loader.dataset)
+            marked = retain_dataset.targets >= 0
+            
+            retain_dataset.imgs = retain_dataset.imgs[marked]
+            retain_dataset.targets = retain_dataset.targets[marked]
+            retain_loader = replace_loader_dataset(
+                retain_dataset, seed=seed, shuffle=True
+            )
+            assert len(forget_dataset) + len(retain_dataset) == len(
+                train_loader_full.dataset
+            )
     else:
+    
         try:
             marked = forget_dataset.targets < 0
             # import pdb; pdb.set_trace()
