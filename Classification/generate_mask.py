@@ -9,6 +9,7 @@ import torch.optim
 import torch.utils.data
 import unlearn
 import utils
+import numpy as np
 
 
 def save_gradient_ratio(data_loaders, model, criterion, args):
