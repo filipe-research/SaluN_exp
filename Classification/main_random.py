@@ -12,6 +12,7 @@ import unlearn
 import utils
 from trainer import validate
 import time
+import numpy as np
 
 def main():
     args = arg_parser.parse_args()
