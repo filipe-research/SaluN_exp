@@ -156,7 +156,7 @@ def main():
     # )
 
     print(f"number of train dataset {len(train_loader.dataset)}")
-    print(f"number of retain dataset {len(retain_dataset.dataset)}")
+    print(f"number of retain dataset {len(retain_loader.dataset)}")
     print(f"number of val dataset {len(val_loader.dataset)}")
     print(f"number of test dataset {len(test_loader.dataset)}")
 
