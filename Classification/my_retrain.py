@@ -36,6 +36,7 @@ def main():
     os.makedirs(args.save_dir, exist_ok=True)
     if args.seed:
         setup_seed(args.seed)
+    seed = args.seed
 
     # prepare dataset
     if args.dataset == "imagenet":
@@ -67,7 +68,7 @@ def main():
     
     if args.dataset == "food101n":
         try:
-            import pdb; pdb.set_trace()
+            # import pdb; pdb.set_trace()
             marked = forget_dataset.targets < 0
             #forget_dataset.data = forget_dataset.data[marked]
             

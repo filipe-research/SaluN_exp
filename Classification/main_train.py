@@ -35,6 +35,7 @@ def main():
     os.makedirs(args.save_dir, exist_ok=True)
     if args.seed:
         setup_seed(args.seed)
+    
 
     # prepare dataset
     if args.dataset == "imagenet":
