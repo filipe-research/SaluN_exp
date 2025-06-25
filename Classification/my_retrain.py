@@ -151,9 +151,9 @@ def main():
 
     print(f"number of retain dataset {len(retain_dataset)}")
     print(f"number of forget dataset {len(forget_dataset)}")
-    unlearn_data_loaders = OrderedDict(
-        retain=retain_loader, forget=forget_loader, val=val_loader, test=test_loader
-    )
+    # unlearn_data_loaders = OrderedDict(
+    #     retain=retain_loader, forget=forget_loader, val=val_loader, test=test_loader
+    # )
 
     print(f"number of train dataset {len(train_loader.dataset)}")
     print(f"number of retain dataset {len(retain_dataset.dataset)}")
