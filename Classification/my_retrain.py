@@ -89,7 +89,7 @@ def main():
                 retain_dataset, seed=seed, shuffle=True
             )
             assert len(forget_dataset) + len(retain_dataset) == len(
-                train_loader_full.dataset
+                train_loader.dataset
             )
         except:
 
