@@ -24,6 +24,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from trainer import train, validate
 from utils import *
 from utils import NormalizeByChannelMeanStd
+import utils
 
 best_sa = 0
 
