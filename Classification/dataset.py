@@ -1384,7 +1384,7 @@ def food101n_dataloaders(
         print(
             "INFO: Marcando amostras ruidosas verificadas (verification_label=0) para esquecimento no Food-101N."
         )
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         num_marked = 0
         for i in range(len(train_set.targets)):
             if (
