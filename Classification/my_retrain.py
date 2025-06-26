@@ -69,7 +69,7 @@ def main():
     
     if args.dataset == "food101n":
         try:
-            import pdb; pdb.set_trace()
+            # import pdb; pdb.set_trace()
             marked = forget_dataset.targets < 0
             #forget_dataset.data = forget_dataset.data[marked]
             
