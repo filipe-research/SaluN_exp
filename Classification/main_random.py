@@ -44,7 +44,8 @@ def main():
         return torch.utils.data.DataLoader(
             dataset,
             batch_size=batch_size,
-            num_workers=0,
+            #num_workers=0,
+            num_workers=2,
             pin_memory=True,
             shuffle=shuffle,
         )
